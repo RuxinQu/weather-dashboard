@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/style.css" />
+    <title>Weather Dashboard</title>
+</head>
+
+<body>
+    <header class="d-flex align-items-center  justify-content-center">
+        <h2 class="text-white">Weather Dashboard</h2>
+    </header>
+
+    <main>
+        <div class="container-fluid">
+            <div class="row mt-3">
+                <!------------ user input area ------------->
+                <div class="col-12 col-md-2 ">
+                    <h3>Search for a city:</h3>
+                    <input class="form-control my-2" type="text" placeholder="eg: Seattle">
+                    <button type="button" class="col btn search-btn text-white my-2">Search</button>
+                    <hr class="solid">
+                </div>
+
+                <!-------------- weather display area ------------->
+                <div class="col-12 col-md-10">
+                    <!--------------- current weather area ----------------->
+                    <div class="row border rounded">
+                        <div class="col">
+                            <h3 class="mt-3"><span id="cityname"></span>(<span id="date"></span>)<img id="icon" /></h3>
+                            <p>Temp:&nbsp;&nbsp;<span id="temp"></span>&nbsp;°F</p>
+                            <p>Wind:&nbsp;&nbsp;<span id="wind"></span>&nbsp;MPH</p>
+                            <p>humidity:&nbsp;&nbsp;<span id="humidity"></span>&nbsp;%</p>
+                            <p>UV index:&nbsp;&nbsp;<span id="uv"></span></p>
+                        </div>
+                    </div>
+                    <!---------------- 5 days weather area ------------------>
+                    <div class="row my-4">
+                        <div class="col">
+                            <h4>5 Day Forcast</h4>
+                            <div class="row">
+                                <div class="col" id="1"></div>
+                                <div class="col" id="2"></div>
+                                <div class="col" id="3"></div>
+                                <div class="col" id="4"></div>
+                                <div class="col" id="5"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.3/build/global/luxon.min.js"></script>
+    <script src="./assets/script.js"></script>
+</body>
+
+</html>
