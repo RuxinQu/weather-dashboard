@@ -1,0 +1,48 @@
+:root {
+    --light-blue: #90E0EF;
+    --medium-blue: #0077B6;
+    --dark-blue: #03045E;
+}
+
+html {
+    font-size: 16px;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.7rem;
+}
+
+/* ------------------header area------------------ */
+header {
+    height: 60px;
+    background-image: linear-gradient(to right, var(--light-blue), var(--dark-blue));
+}
+
+header h2 {
+
+    font-weight: bold;
+}
+
+
+/* ------------------user input area------------------ */
+.search-btn {
+    background-color: var(--medium-blue);
+}
+
+.search-btn:hover {
+    cursor: pointer;
+}
+
+.search-btn:active {
+    transform: scale(1.03);
+}
+
+.solid {
+    border: 1px solid lightgray;
+}
+
+/* ------------------current weather container------------------ */
