@@ -16,6 +16,10 @@ h3 {
     font-size: 1.7rem;
 }
 
+h4{
+    font-size: 1.4rem;
+}
+
 /* ------------------header area------------------ */
 header {
     height: 60px;
@@ -46,3 +50,6 @@ header h2 {
 }
 
 /* ------------------current weather container------------------ */
+#uv{
+    padding: 0 10px;
+}
