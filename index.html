@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css"
         integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="./assets/style.css" />
     <title>Weather Dashboard</title>
 </head>
@@ -20,15 +21,17 @@
         <div class="container-fluid">
             <div class="row mt-3">
                 <!------------ user input area ------------->
-                <div class="col-12 col-md-2 ">
-                    <h3>Search for a city:</h3>
-                    <input class="form-control my-2" type="text" placeholder="eg: Seattle">
+                <div class="col-12 col-lg-2 ui-widget">
+                    <label for="city">Search for a city:</label>
+                    <input id="city" class="form-control my-2" type="text" placeholder="eg: Seattle">
                     <button type="button" class="col btn search-btn text-white my-2">Search</button>
                     <hr class="solid">
+                    <ul id="city-list" class="col">
+                    </ul>
                 </div>
 
                 <!-------------- weather display area ------------->
-                <div class="col-12 col-md-10 weather">
+                <div class="col-12 col-lg-10 weather">
                     <!--------------- current weather area ----------------->
                     <div class="row border rounded">
                         <div class="col">
@@ -44,35 +47,40 @@
                         <div class="col">
                             <h4>5 Day Forcast</h4>
                             <div class="row text-white my-4">
-                                <div class="col bg-custom mx-1 py-2" id="1">
+                                <!--------------- day 1 --------------->
+                                <div class="col bg-custom m-1 py-2" id="1">
                                     <h4 id="day1"></h4>
                                     <img id="icon1" />
                                     <p>Temp:&nbsp;&nbsp;<span id="temp1"></span>&nbsp;°F</p>
                                     <p>Wind:&nbsp;&nbsp;<span id="wind1"></span>&nbsp;MPH</p>
                                     <p>Humidity:&nbsp;&nbsp;<span id="humidity1"></span>&nbsp;%</p>
                                 </div>
-                                <div class="col bg-custom mx-1 py-2" id="2">
+                                <!--------------- day 2 --------------->
+                                <div class="col bg-custom m-1 py-2" id="2">
                                     <h4 id="day2"></h4>
                                     <img id="icon2" />
                                     <p>Temp:&nbsp;&nbsp;<span id="temp2"></span>&nbsp;°F</p>
                                     <p>Wind:&nbsp;&nbsp;<span id="wind2"></span>&nbsp;MPH</p>
                                     <p>Humidity:&nbsp;&nbsp;<span id="humidity2"></span>&nbsp;%</p>
                                 </div>
-                                <div class="col bg-custom mx-1 py-2" id="3">
+                                <!--------------- day 3 --------------->
+                                <div class="col bg-custom m-1 py-2" id="3">
                                     <h4 id="day3"></h4>
                                     <img id="icon3" />
                                     <p>Temp:&nbsp;&nbsp;<span id="temp3"></span>&nbsp;°F</p>
                                     <p>Wind:&nbsp;&nbsp;<span id="wind3"></span>&nbsp;MPH</p>
                                     <p>Humidity:&nbsp;&nbsp;<span id="humidity3"></span>&nbsp;%</p>
                                 </div>
-                                <div class="col bg-custom mx-1 py-2" id="4">
+                                <!--------------- day 4 --------------->
+                                <div class="col bg-custom m-1 py-2" id="4">
                                     <h4 id="day4"></h4>
                                     <img id="icon4" />
                                     <p>Temp:&nbsp;&nbsp;<span id="temp4"></span>&nbsp;°F</p>
                                     <p>Wind:&nbsp;&nbsp;<span id="wind4"></span>&nbsp;MPH</p>
                                     <p>Humidity:&nbsp;&nbsp;<span id="humidity4"></span>&nbsp;%</p>
                                 </div>
-                                <div class="col bg-custom mx-1 py-2" id="5">
+                                <!--------------- day 5 --------------->
+                                <div class="col bg-custom m-1 py-2" id="5">
                                     <h4 id="day5"></h4>
                                     <img id="icon5" />
                                     <p>Temp:&nbsp;&nbsp;<span id="temp5"></span>&nbsp;°F</p>
@@ -89,17 +97,12 @@
         </div>
     </main>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.3/build/global/luxon.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="./assets/script.js"></script>
+    <script src="./assets/localstorage.js"></script>
 </body>
 
 </html>
