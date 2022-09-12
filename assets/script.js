@@ -10,12 +10,11 @@ $(document).ready(() => {
     }
 
     const displayFutureDate = () => {
-        $('#day1').text(DateTime.now().plus({ days: 1 }).setLocale('en-us').toLocaleString());
-        $('#day2').text(DateTime.now().plus({ days: 2 }).setLocale('en-us').toLocaleString());
-        $('#day3').text(DateTime.now().plus({ days: 3 }).setLocale('en-us').toLocaleString());
-        $('#day4').text(DateTime.now().plus({ days: 4 }).setLocale('en-us').toLocaleString());
-        $('#day5').text(DateTime.now().plus({ days: 5 }).setLocale('en-us').toLocaleString());
+        for (let x = 1; x < 6; x++) {
+            $(`#day${x}`).text(DateTime.now().plus({ days: `${x}` }).setLocale('en-us').toLocaleString());
+        }
     }
+
     const renderUvColor = (current) => {
         const uv = current.uvi;
         if (uv > 11) {
@@ -55,7 +54,7 @@ $(document).ready(() => {
         }
     }
 
-    const getCurrentWeather = async (location) => {
+    const getWeather = async (location) => {
         const lat = location[1];
         const lon = location[0];
         const weatherEndpoint = `/data/3.0/onecall`;
@@ -66,33 +65,17 @@ $(document).ready(() => {
             if (response.ok) {
                 const jsonResponse = await response.json();
                 const current = jsonResponse.current;
-                return current;
+                const forecast = jsonResponse.daily;
+                const weather = [current, forecast];
+                return weather;
             }
         } catch (error) {
             console.log(error.message);
         }
-    }
-
-    const getForcastWeather = async (location) => {
-        const lat = location[1];
-        const lon = location[0];
-        const forcastEndpoint = `/data/2.5/forecast`;
-        const requestParams = `?lat=${lat}&lon=${lon}&appid=${apiKey}`;
-        const urlToFetch = `${baseUrl}${forcastEndpoint}${requestParams}`;
-        try {
-            const response = await fetch(urlToFetch);
-            if (response.ok) {
-                const jsonResponse = await response.json();
-                const forecastList = jsonResponse.list;
-                return forecastList;
-            }
-        } catch (error) {
-            console.log(error.message);
-        }
-
     }
 
     const renderCurrentWeather = (current) => {
+        displayCurrentDate();
         $('#temp').text(current.temp);
         $('#wind').text(current.wind_speed);
         $('#humidity').text(current.humidity);
@@ -104,28 +87,35 @@ $(document).ready(() => {
         renderUvColor(current)
     }
 
-    const renderForecastWeather = (forecastList) => {
-        // to do :  add code to display the next five days forcast
-        // to do :  add code to display the next five days forcast
-        // to do :  add code to display the next five days forcast
+    const renderForecastWeather = (forecast) => {
+        console.log(forecast);
+        displayFutureDate();
+        for (let x = 0; x < 5; x++) {
+            $(`#temp${x+1}`).text(forecast[x].temp.day);
+            $(`#wind${x+1}`).text(forecast[x].wind_speed);
+            $(`#humidity${x+1}`).text(forecast[x].humidity);
+            $(`#icon${x+1}`).attr({
+                "src": `http://openweathermap.org/img/w/${forecast[x].weather[0].icon}.png`,
+                "alt": "weather icon"
+            });
+        }
     }
 
     const displayWeather = async () => {
         const city = await getCity()
         const location = await getLocation(city);
-        const weather = await Promise.all([getCurrentWeather(location),getForcastWeather(location)])
+        const weather = await getWeather(location)
         const currentWeather = weather[0];
         const forecastWeather = weather[1];
         renderCurrentWeather(currentWeather);
-        // renderForecastWeather(forecastWeather);
+        renderForecastWeather(forecastWeather);
+        $('.weather').show();
     }
 
-    displayCurrentDate();
-    displayFutureDate();
+    $('.weather').hide();
     $('.search-btn').on('click', (event) => {
         event.preventDefault();
         displayWeather();
-
     })
 })
 
