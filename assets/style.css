@@ -2,6 +2,7 @@
     --light-blue: #90E0EF;
     --medium-blue: #0077B6;
     --dark-blue: #03045E;
+    --bg-forecast: #023e8a;
 }
 
 html {
@@ -16,7 +17,7 @@ h3 {
     font-size: 1.7rem;
 }
 
-h4{
+h4 {
     font-size: 1.4rem;
 }
 
@@ -50,6 +51,12 @@ header h2 {
 }
 
 /* ------------------current weather container------------------ */
-#uv{
+#uv {
     padding: 0 10px;
+}
+
+/* ------------------forecast container------------------ */
+
+.bg-custom {
+    background-color: var(--bg-forecast);
 }
