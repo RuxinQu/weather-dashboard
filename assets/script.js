@@ -39,8 +39,8 @@ $(document).ready(() => {
         }
     }
 
-    const getCity = () => {
-        cityName = $('input').val();
+    const getCity = (event) => {
+        cityName = $('input').val() || $(event.currentTarget).attr('id');
         $('input').val('');
         return cityName;
     }
@@ -123,19 +123,8 @@ $(document).ready(() => {
         }
     }
 
-    const displayWeather = async () => {
-        const city = await getCity();
-        const location = await getLocation(city);
-        const weather = await getWeather(location);
-        const currentWeather = weather[0];
-        const forecastWeather = weather[1];
-        renderCurrentWeather(currentWeather);
-        renderForecastWeather(forecastWeather);
-        $('.weather').show();
-    }
-
-    const displayLocalWeather = async (event) => {
-        const city = $(event.currentTarget).attr('id');
+    const displayWeather = async (event) => {
+        const city = getCity(event);
         const location = await getLocation(city);
         const weather = await getWeather(location);
         const currentWeather = weather[0];
@@ -152,7 +141,7 @@ $(document).ready(() => {
         displayWeather();
     })
 
-    $('#city-list').on('click', '.city-item', displayLocalWeather)
+    $('#city-list').on('click', '.city-item', displayWeather)
 })
 
 
