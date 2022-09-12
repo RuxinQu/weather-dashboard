@@ -3,6 +3,7 @@ $(document).ready(() => {
     const baseUrl = `https://api.openweathermap.org`;
     let DateTime = luxon.DateTime;
     let cityName;
+    let cityArr = JSON.parse(localStorage.getItem('city')) || [];
 
     // autocomplete 385 American citys
     $(function () {
@@ -83,6 +84,12 @@ $(document).ready(() => {
         }
     }
 
+    const saveCity = () => {
+        cityArr.push(cityName);
+        uniqueCityArr = [...new Set(cityArr)];
+        localStorage.setItem('city', JSON.stringify(uniqueCityArr));
+    }
+
     const renderCurrentWeather = (current) => {
         displayCurrentDate();
         $('#temp').text(current.temp);
@@ -99,10 +106,10 @@ $(document).ready(() => {
     const renderForecastWeather = (forecast) => {
         displayFutureDate();
         for (let x = 0; x < 5; x++) {
-            $(`#temp${x+1}`).text(forecast[x].temp.day);
-            $(`#wind${x+1}`).text(forecast[x].wind_speed);
-            $(`#humidity${x+1}`).text(forecast[x].humidity);
-            $(`#icon${x+1}`).attr({
+            $(`#temp${x + 1}`).text(forecast[x].temp.day);
+            $(`#wind${x + 1}`).text(forecast[x].wind_speed);
+            $(`#humidity${x + 1}`).text(forecast[x].humidity);
+            $(`#icon${x + 1}`).attr({
                 "src": `http://openweathermap.org/img/w/${forecast[x].weather[0].icon}.png`,
                 "alt": "weather icon"
             });
@@ -110,17 +117,19 @@ $(document).ready(() => {
     }
 
     const displayWeather = async () => {
-        const city = await getCity()
+        const city = await getCity();
         const location = await getLocation(city);
-        const weather = await getWeather(location)
+        const weather = await getWeather(location);
         const currentWeather = weather[0];
         const forecastWeather = weather[1];
+        saveCity();
         renderCurrentWeather(currentWeather);
         renderForecastWeather(forecastWeather);
         $('.weather').show();
     }
 
     $('.weather').hide();
+
     $('.search-btn').on('click', (event) => {
         event.preventDefault();
         displayWeather();

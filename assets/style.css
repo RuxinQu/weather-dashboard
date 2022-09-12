@@ -3,6 +3,7 @@
     --medium-blue: #0077B6;
     --dark-blue: #03045E;
     --bg-forecast: #023e8a;
+    --bg-local-city: #d3d3d3;
 }
 
 html {
@@ -49,6 +50,18 @@ header h2 {
 
 .solid {
     border: 1px solid lightgray;
+}
+/* ------------------local storage area------------------ */
+ul{
+    list-style: none;
+}
+
+.city-item{
+    font-size: 1.2rem;
+    background-color: var(--bg-local-city);
+    text-align: center;
+    margin: 10px 0;
+    cursor: pointer;
 }
 
 /* ------------------current weather container------------------ */
