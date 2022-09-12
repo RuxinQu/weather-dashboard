@@ -45,6 +45,19 @@ $(document).ready(() => {
         return cityName;
     }
 
+    const saveCity = (cityName) => {
+        $('#cityname').text(cityName)
+        if (cityArr.includes(cityName)) {
+            return ''
+        } else {
+            cityArr.push(cityName);
+            const cityEl = $(`<li class="city-item"> ${cityName} </li>`);
+            cityEl.attr('id', `${cityName}`);
+            $('#city-list').append(cityEl)
+            localStorage.setItem('city', JSON.stringify(cityArr));
+        }
+    }
+
     const getLocation = async (cityName) => {
         const locationEndpoint = `/data/2.5/weather`;
         const requestParams = `?q=${cityName}&appid=${apiKey}`;
@@ -53,7 +66,7 @@ $(document).ready(() => {
             const response = await fetch(urlToFetch);
             if (response.ok) {
                 const jsonResponse = await response.json();
-                $('#cityname').text(jsonResponse.name)
+                saveCity(jsonResponse.name)
                 const lon = jsonResponse.coord.lon;
                 const lat = jsonResponse.coord.lat;
                 const location = [lon, lat];
@@ -82,12 +95,6 @@ $(document).ready(() => {
         } catch (error) {
             console.log(error.message);
         }
-    }
-
-    const saveCity = () => {
-        cityArr.push(cityName);
-        uniqueCityArr = [...new Set(cityArr)];
-        localStorage.setItem('city', JSON.stringify(uniqueCityArr));
     }
 
     const renderCurrentWeather = (current) => {
@@ -122,7 +129,17 @@ $(document).ready(() => {
         const weather = await getWeather(location);
         const currentWeather = weather[0];
         const forecastWeather = weather[1];
-        saveCity();
+        renderCurrentWeather(currentWeather);
+        renderForecastWeather(forecastWeather);
+        $('.weather').show();
+    }
+
+    const displayLocalWeather = async (event) => {
+        const city = $(event.currentTarget).attr('id');
+        const location = await getLocation(city);
+        const weather = await getWeather(location);
+        const currentWeather = weather[0];
+        const forecastWeather = weather[1];
         renderCurrentWeather(currentWeather);
         renderForecastWeather(forecastWeather);
         $('.weather').show();
@@ -134,6 +151,8 @@ $(document).ready(() => {
         event.preventDefault();
         displayWeather();
     })
+
+    $('#city-list').on('click', '.city-item', displayLocalWeather)
 })
 
 
