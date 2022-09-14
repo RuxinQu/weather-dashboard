@@ -1,3 +1,11 @@
+/* ====================================================================================================================================
+Description: 
+1. This project is a weather dashboard. The weather data is fetched from OpenWeather API. The luxon.js library is used to display date. 
+2. Autocomplete of 385 American cities is added to the input field to make the search easier. 
+3. Each city name can appear in the search history once, repeated name is prevented. 
+4. The city name on the page will always have the first letter capical regardless of the user input for consistency.
+==================================================================================================================================== */
+
 $(document).ready(() => {
     const apiKey = `3b1ee469afef74f74a7531244d75f597`
     const baseUrl = `https://api.openweathermap.org`;
@@ -13,17 +21,20 @@ $(document).ready(() => {
         });
     });
 
+    //display the current date
     const displayCurrentDate = () => {
         const today = DateTime.now().setLocale('en-us').toLocaleString();
-        $('#date').text(DateTime.now().toLocaleString());
+        $('#date').text(today);
     }
 
+    //display the 5 days in the future
     const displayFutureDate = () => {
         for (let x = 1; x < 6; x++) {
             $(`#day${x}`).text(DateTime.now().plus({ days: `${x}` }).setLocale('en-us').toLocaleString());
         }
     }
 
+    //set the background of UV index based on the severity
     const renderUvColor = (current) => {
         const uv = current.uvi;
         if (uv > 11) {
@@ -39,12 +50,14 @@ $(document).ready(() => {
         }
     }
 
+    //the city name can either from user input or from search history
     const getCity = (event) => {
         cityName = $('input').val() || $(event.currentTarget).attr('id');
         $('input').val('');
         return cityName;
     }
 
+    //save the city name to local storage and prevent repeated names
     const saveCity = (cityName) => {
         $('#cityname').text(cityName)
         if (cityArr.includes(cityName)) {
@@ -58,6 +71,7 @@ $(document).ready(() => {
         }
     }
 
+    //fetch lon and lat based on the cityname
     const getLocation = async (cityName) => {
         const locationEndpoint = `/data/2.5/weather`;
         const requestParams = `?q=${cityName}&appid=${apiKey}`;
@@ -69,17 +83,18 @@ $(document).ready(() => {
                 saveCity(jsonResponse.name)
                 const lon = jsonResponse.coord.lon;
                 const lat = jsonResponse.coord.lat;
-                const location = [lon, lat];
-                return location;
+                const locationArr = [lon, lat];
+                return locationArr;
             }
         } catch (error) {
             console.log(error.message);
         }
     }
 
-    const getWeather = async (location) => {
-        const lat = location[1];
-        const lon = location[0];
+    //fetch the current and future weather data based on the lon and lat
+    const getWeather = async (locationArr) => {
+        const lat = locationArr[1];
+        const lon = locationArr[0];
         const weatherEndpoint = `/data/3.0/onecall`;
         const requestParams = `?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
         const urlToFetch = `${baseUrl}${weatherEndpoint}${requestParams}`;
@@ -89,27 +104,29 @@ $(document).ready(() => {
                 const jsonResponse = await response.json();
                 const current = jsonResponse.current;
                 const forecast = jsonResponse.daily;
-                const weather = [current, forecast];
-                return weather;
+                const weatherArr = [current, forecast];
+                return weatherArr;
             }
         } catch (error) {
             console.log(error.message);
         }
     }
 
+    //render the current weather related info to the page
     const renderCurrentWeather = (current) => {
         displayCurrentDate();
         $('#temp').text(current.temp);
         $('#wind').text(current.wind_speed);
         $('#humidity').text(current.humidity);
         $('#icon').attr({
-            "src": `http://openweathermap.org/img/w/${current.weather[0].icon}.png`,
+            "src": `https://openweathermap.org/img/w/${current.weather[0].icon}.png`,
             "alt": "weather icon"
         });
         $('#uv').text(current.uvi);
         renderUvColor(current)
     }
 
+    //render the future weather related info to the page
     const renderForecastWeather = (forecast) => {
         displayFutureDate();
         for (let x = 0; x < 5; x++) {
@@ -117,30 +134,34 @@ $(document).ready(() => {
             $(`#wind${x + 1}`).text(forecast[x].wind_speed);
             $(`#humidity${x + 1}`).text(forecast[x].humidity);
             $(`#icon${x + 1}`).attr({
-                "src": `http://openweathermap.org/img/w/${forecast[x].weather[0].icon}.png`,
+                "src": `https://openweathermap.org/img/w/${forecast[x].weather[0].icon}.png`,
                 "alt": "weather icon"
             });
         }
     }
 
+    //the asynchronous function that holds all the callback functions and processes all the data
     const displayWeather = async (event) => {
         const city = getCity(event);
-        const location = await getLocation(city);
-        const weather = await getWeather(location);
-        const currentWeather = weather[0];
-        const forecastWeather = weather[1];
+        const locationArr = await getLocation(city);
+        const weatherArr = await getWeather(locationArr);
+        const currentWeather = weatherArr[0];
+        const forecastWeather = weatherArr[1];
         renderCurrentWeather(currentWeather);
         renderForecastWeather(forecastWeather);
         $('.weather').show();
     }
 
+    //hide the weather container before a user click search
     $('.weather').hide();
 
+    //add event listener to the search button
     $('.search-btn').on('click', (event) => {
         event.preventDefault();
         displayWeather();
     })
 
+    //add event listener to the search history list
     $('#city-list').on('click', '.city-item', displayWeather)
 })
 

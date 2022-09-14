@@ -6,7 +6,7 @@ This project is a weather dashboard.
 
 It allows users to view the current weather and 5 days forecast. [OpenWeather](https://openweathermap.org) is used to retrieve weather data. [Luxon.js](https://moment.github.io/luxon/#/) is used to display date.
 
-View the deployed website: 
+View the deployed website: https://ruxinqu.github.io/weather-dashboard/
 
 
 ## Usage
