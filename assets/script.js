@@ -80,7 +80,7 @@ $(document).ready(() => {
             const response = await fetch(urlToFetch);
             if (response.ok) {
                 const jsonResponse = await response.json();
-                saveCity(jsonResponse.name)
+                saveCity(jsonResponse.name);
                 const lon = jsonResponse.coord.lon;
                 const lat = jsonResponse.coord.lat;
                 const locationArr = [lon, lat];
@@ -93,22 +93,27 @@ $(document).ready(() => {
 
     //fetch the current and future weather data based on the lon and lat
     const getWeather = async (locationArr) => {
-        const lat = locationArr[1];
-        const lon = locationArr[0];
-        const weatherEndpoint = `/data/3.0/onecall`;
-        const requestParams = `?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
-        const urlToFetch = `${baseUrl}${weatherEndpoint}${requestParams}`;
-        try {
-            const response = await fetch(urlToFetch);
-            if (response.ok) {
-                const jsonResponse = await response.json();
-                const current = jsonResponse.current;
-                const forecast = jsonResponse.daily;
-                const weatherArr = [current, forecast];
-                return weatherArr;
+        if (locationArr === undefined) {
+            $('.modal').show();
+            return;
+        } else {
+            const lat = locationArr[1];
+            const lon = locationArr[0];
+            const weatherEndpoint = `/data/3.0/onecall`;
+            const requestParams = `?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
+            const urlToFetch = `${baseUrl}${weatherEndpoint}${requestParams}`;
+            try {
+                const response = await fetch(urlToFetch);
+                if (response.ok) {
+                    const jsonResponse = await response.json();
+                    const current = jsonResponse.current;
+                    const forecast = jsonResponse.daily;
+                    const weatherArr = [current, forecast];
+                    return weatherArr;
+                }
+            } catch (error) {
+                console.log(error.message);
             }
-        } catch (error) {
-            console.log(error.message);
         }
     }
 
@@ -145,15 +150,18 @@ $(document).ready(() => {
         const city = getCity(event);
         const locationArr = await getLocation(city);
         const weatherArr = await getWeather(locationArr);
-        const currentWeather = weatherArr[0];
-        const forecastWeather = weatherArr[1];
-        renderCurrentWeather(currentWeather);
-        renderForecastWeather(forecastWeather);
-        $('.weather').show();
+        if (weatherArr) {
+            const currentWeather = weatherArr[0];
+            const forecastWeather = weatherArr[1];
+            renderCurrentWeather(currentWeather);
+            renderForecastWeather(forecastWeather);
+            $('.weather').show();
+        }
     }
 
     //hide the weather container before a user click search
     $('.weather').hide();
+    $('.modal').hide();
 
     //add event listener to the search button
     $('.search-btn').on('click', (event) => {
@@ -162,7 +170,11 @@ $(document).ready(() => {
     })
 
     //add event listener to the search history list
-    $('#city-list').on('click', '.city-item', displayWeather)
+    $('#city-list').on('click', '.city-item', displayWeather);
+
+    $('button').on('click',()=>{
+        $('.modal').hide();
+    })
 })
 
 
