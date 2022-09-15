@@ -14,6 +14,7 @@ View the deployed website: https://ruxinqu.github.io/weather-dashboard/
 * The user enters a city name and click "search", then the current weather and 5 days forecast will display.
 * The weather icon, temperature, wind speed, humidity are provided in both current weather and 5 day forecast. 
 * The current weather also provides UV index, presented with a color from green to violet indicating increased severity.
+* If the database doesn't contain the city name, a modal will be issued.
 * **Autocomplete** of 385 American cities is added to the input field to make the search easier.
 * Once a city is searched, the name will be added to the search history list on the left of the page, and saved in local storage.
 * Each city can only appear in the search history **ONCE**.

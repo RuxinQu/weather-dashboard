@@ -30,10 +30,8 @@ header {
 }
 
 header h2 {
-
     font-weight: bold;
 }
-
 
 /* ------------------user input area------------------ */
 .search-btn {
@@ -51,12 +49,13 @@ header h2 {
 .solid {
     border: 1px solid lightgray;
 }
+
 /* ------------------local storage area------------------ */
-ul{
+ul {
     list-style: none;
 }
 
-.city-item{
+.city-item {
     font-size: 1.2rem;
     background-color: var(--bg-local-city);
     text-align: center;
@@ -70,8 +69,25 @@ ul{
 }
 
 /* ------------------forecast container------------------ */
-
 .bg-custom {
     background-color: var(--bg-forecast);
 }
 
+/* ------------------modal styling------------------ */
+.modal {
+    display: flex;
+    align-items: center;
+}
+
+/* changing the background opacity but doesn't affect the modal */
+.modal::before {
+    content: " ";
+    background-color: gray;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0.5;
+}
