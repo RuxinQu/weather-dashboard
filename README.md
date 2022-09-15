@@ -21,7 +21,7 @@ View the deployed website: https://ruxinqu.github.io/weather-dashboard/
 * The city name appear in the page will always have the first letter captical for consistency.
 * The animation below shows the web application's appearance and functionality:
 
-![demo video of the weather dashboard](./assets/weather-dashboard.gif)
+![demo video of the weather dashboard](./assets/weather-dashboard-demo.gif)
 
 
 
