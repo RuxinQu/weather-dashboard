@@ -146,7 +146,7 @@ $(document).ready(() => {
     }
 
     //the asynchronous function that holds all the callback functions and processes all the data
-    const displayWeather = async (event) => {
+    const searchWeather = async (event) => {
         const city = getCity(event);
         const locationArr = await getLocation(city);
         const weatherArr = await getWeather(locationArr);
@@ -166,11 +166,11 @@ $(document).ready(() => {
     //add event listener to the search button
     $('.search-btn').on('click', (event) => {
         event.preventDefault();
-        displayWeather();
+        searchWeather();
     })
 
     //add event listener to the search history list
-    $('#city-list').on('click', '.city-item', displayWeather);
+    $('#city-list').on('click', '.city-item', searchWeather);
 
     $('button').on('click',()=>{
         $('.modal').hide();
